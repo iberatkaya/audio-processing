@@ -13,25 +13,31 @@ enum ProcessingError: Error {
 }
 
 struct ProcessingSettings {
-    init(reverb: Int = 0, delay: Int = 0, delayTimeInMS: Int = 500) {
+    init(reverb: Int = 0, delay: Int = 0, delayTimeInMS: Int = 500, distortionAmount: Int = 0, distortionGain: Int = 0) {
         self.reverb = reverb
         self.delay = delay
         self.delayTimeInMS = delayTimeInMS
+        self.distortionGain = distortionGain
+        self.distortionAmount = distortionAmount
     }
     
     let reverb: Int
     let delay: Int
     let delayTimeInMS: Int
+    let distortionAmount: Int
+    let distortionGain: Int
 }
 
-class AudioProcessor: NSObject, ObservableObject, AVAudioPlayerDelegate {
+protocol AudioProcessorDelegate {
+    func didFinishPlaying()
+}
+
+class AudioProcessor: NSObject, AVAudioPlayerDelegate {
     var player: AVAudioPlayer?
-    @Published var isPlaying = false
+    var delegate: AudioProcessorDelegate?
     
     func playFile(_ pathStr: String) throws {
-        print("play file " + pathStr)
         let path = URL(filePath: pathStr)
-        print(path.path)
         // File might be secure
         _ = path.startAccessingSecurityScopedResource()
         do {
@@ -44,11 +50,10 @@ class AudioProcessor: NSObject, ObservableObject, AVAudioPlayerDelegate {
         } catch {
             print(error.localizedDescription)
         }
-        isPlaying = player?.isPlaying ?? false
     }
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        isPlaying = false
+        delegate?.didFinishPlaying()
     }
     
     func stopPlayer() {
@@ -56,7 +61,6 @@ class AudioProcessor: NSObject, ObservableObject, AVAudioPlayerDelegate {
             print("already playing, stop")
             player.stop()
         }
-        isPlaying = player?.isPlaying ?? false
     }
     
     func processFile(_ pathStr: String, settings: ProcessingSettings) throws -> URL {
@@ -76,42 +80,26 @@ class AudioProcessor: NSObject, ObservableObject, AVAudioPlayerDelegate {
         let playerNode = AVAudioPlayerNode()
         let reverbNode = AVAudioUnitReverb()
         let delayNode = AVAudioUnitDelay()
+        let distortionNode = AVAudioUnitDistortion()
 
         engine.attach(playerNode)
-        if settings.reverb > 0 {
-            engine.attach(reverbNode)
-        }
-        if settings.delay > 0 {
-            engine.attach(delayNode)
-        }
-
-        if settings.reverb > 0 {
-            // Set the desired reverb parameters.
-            reverbNode.loadFactoryPreset(.mediumHall)
-            reverbNode.wetDryMix = Float(settings.reverb)
-        }
-        if settings.delay > 0 {
-            delayNode.delayTime = TimeInterval(Float(settings.delayTimeInMS) / 1000)
-            delayNode.wetDryMix = Float(settings.delay)
-        }
-
-        if settings.reverb > 0 {
-            // Connect the nodes.
-            engine.connect(playerNode, to: reverbNode, format: format)
-            if settings.delay > 0 {
-                engine.connect(reverbNode, to: delayNode, format: format)
-                engine.connect(delayNode, to: engine.mainMixerNode, format: format)
-            } else {
-                engine.connect(reverbNode, to: engine.mainMixerNode, format: format)
-            }
-        } else {
-            if settings.delay > 0 {
-                engine.connect(playerNode, to: delayNode, format: format)
-                engine.connect(delayNode, to: engine.mainMixerNode, format: format)
-            } else {
-                engine.connect(playerNode, to: engine.mainMixerNode, format: format)
-            }
-        }
+        
+        engine.attach(reverbNode)
+        reverbNode.loadFactoryPreset(.mediumHall)
+        reverbNode.wetDryMix = Float(settings.reverb)
+        
+        engine.attach(delayNode)
+        delayNode.delayTime = TimeInterval(Float(settings.delayTimeInMS) / 1000)
+        delayNode.wetDryMix = Float(settings.delay)
+        
+        engine.attach(distortionNode)
+        distortionNode.wetDryMix = Float(settings.distortionAmount)
+        distortionNode.preGain = Float(settings.distortionGain)
+        
+        engine.connect(playerNode, to: reverbNode, format: format)
+        engine.connect(reverbNode, to: delayNode, format: format)
+        engine.connect(delayNode, to: distortionNode, format: format)
+        engine.connect(distortionNode, to: engine.mainMixerNode, format: format)
 
         // Schedule the source file.
         playerNode.scheduleFile(sourceFile, at: nil)
@@ -181,5 +169,4 @@ class AudioProcessor: NSObject, ObservableObject, AVAudioPlayerDelegate {
         
         return outputFile.url
     }
-
 }

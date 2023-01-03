@@ -17,6 +17,7 @@
 		F49F77E1296378D300599B50 /* AudioProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F77E0296378D300599B50 /* AudioProcessor.swift */; };
 		F49F77E329637A9800599B50 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F77E229637A9800599B50 /* DocumentPicker.swift */; };
 		F49F77E52963AEE200599B50 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F77E42963AEE200599B50 /* ContentViewModel.swift */; };
+		F49F77E92963B80300599B50 /* EffectSliders.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F77E82963B80300599B50 /* EffectSliders.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		F49F77E0296378D300599B50 /* AudioProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioProcessor.swift; sourceTree = "<group>"; };
 		F49F77E229637A9800599B50 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
 		F49F77E42963AEE200599B50 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
+		F49F77E82963B80300599B50 /* EffectSliders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EffectSliders.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,11 +102,10 @@
 		F49F779F29568E8C00599B50 /* audio-processing */ = {
 			isa = PBXGroup;
 			children = (
-				F49F77A029568E8C00599B50 /* audio_processingApp.swift */,
-				F49F77A229568E8C00599B50 /* ContentView.swift */,
-				F49F77E229637A9800599B50 /* DocumentPicker.swift */,
-				F49F77E42963AEE200599B50 /* ContentViewModel.swift */,
-				F49F77E0296378D300599B50 /* AudioProcessor.swift */,
+				F49F77ED2963B84000599B50 /* Services */,
+				F49F77EC2963B81F00599B50 /* Core */,
+				F49F77EB2963B81400599B50 /* ViewModels */,
+				F49F77EA2963B80A00599B50 /* Views */,
 				F49F77A429568E8D00599B50 /* Assets.xcassets */,
 				F49F77A629568E8D00599B50 /* Preview Content */,
 			);
@@ -134,6 +135,40 @@
 				F49F77BD29568E8D00599B50 /* audio_processingUITestsLaunchTests.swift */,
 			);
 			path = "audio-processingUITests";
+			sourceTree = "<group>";
+		};
+		F49F77EA2963B80A00599B50 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F49F77A229568E8C00599B50 /* ContentView.swift */,
+				F49F77E82963B80300599B50 /* EffectSliders.swift */,
+				F49F77E229637A9800599B50 /* DocumentPicker.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F49F77EB2963B81400599B50 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				F49F77E42963AEE200599B50 /* ContentViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		F49F77EC2963B81F00599B50 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				F49F77A029568E8C00599B50 /* audio_processingApp.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		F49F77ED2963B84000599B50 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				F49F77E0296378D300599B50 /* AudioProcessor.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,6 +306,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F49F77A329568E8C00599B50 /* ContentView.swift in Sources */,
+				F49F77E92963B80300599B50 /* EffectSliders.swift in Sources */,
 				F49F77E52963AEE200599B50 /* ContentViewModel.swift in Sources */,
 				F49F77A129568E8C00599B50 /* audio_processingApp.swift in Sources */,
 				F49F77E329637A9800599B50 /* DocumentPicker.swift in Sources */,
