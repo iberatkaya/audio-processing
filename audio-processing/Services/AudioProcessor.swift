@@ -13,19 +13,55 @@ enum ProcessingError: Error {
 }
 
 struct ProcessingSettings {
-    init(reverb: Int = 0, delay: Int = 0, delayTimeInMS: Int = 500, distortionAmount: Int = 0, distortionGain: Int = 0) {
+    init(reverb: Int = 0, delay: Int = 0, delayTimeInMS: Int = 0, delayFeedback: Int = 50, delayLowPassCutoff: Int = 15000, distortionAmount: Int = 0, distortionGain: Int = 0, pitchAmount: Int = 0, pitchOverlap: Float = 8.0, pitchRate: Float =  1.0, playRate: Float = 1.0) {
         self.reverb = reverb
         self.delay = delay
         self.delayTimeInMS = delayTimeInMS
+        self.delayFeedback = delayFeedback
+        self.delayLowPassCutoff = delayLowPassCutoff
         self.distortionGain = distortionGain
         self.distortionAmount = distortionAmount
+        self.pitchRate = pitchRate
+        self.pitchAmount = pitchAmount
+        self.pitchOverlap = pitchOverlap
+        self.playRate = playRate
     }
     
+    /// You specify the blend as a percentage. The range is 0% through 100%, where 0% represents all dry.
     let reverb: Int
+    
+    /// You specify the blend as a percentage. The default value is 100%. The valid range of values is 0% through 100%, where 0% represents all dry.
     let delay: Int
+    
+    /// The amount of the output signal that feeds back into the delay line. You specify the feedback as a percentage. The default value is 50%. The valid range of values is -100% to 100%.
+    let delayFeedback: Int
+    
+    /// You specify the delay in seconds. The default value is 1. The valid range of values is 0 to 2 seconds.
     let delayTimeInMS: Int
+    
+    /// The cutoff frequency above which high frequency content rolls off, in hertz.
+    /// The default value is 15000 Hz. The valid range of values is 10 Hz through (sampleRate/2).
+    let delayLowPassCutoff: Int
+    
+    /// You specify the blend as a percentage. The default value is 50%. The valid range is 0% through 100%, where 0 represents all dry.
     let distortionAmount: Int
+    
+    /// The gain that the audio unit applies to the signal before distortion, in decibels.
+    /// The default value is -6 dB. The valid range of values is -80 dB to 20 dB.
     let distortionGain: Int
+    
+    /// The audio unit measures the pitch in cents, a logarithmic value you use for measuring musical intervals. One octave is equal to 1200 cents. One musical semitone is equal to 100 cents.
+    /// The default value is 0.0. The range of values is -2400 to 2400.
+    let pitchAmount: Int
+
+    /// A higher value results in fewer artifacts in the output signal. The default value is 8.0. The range of values is 3.0 to 32.0.
+    let pitchOverlap: Float
+    
+    /// The default value is 1.0. The range of supported values is 1/32 to 32.0.
+    let pitchRate: Float
+    
+    /// The audio playback rate. The default value is 1.0. The range of values is 0.25 to 4.0.
+    let playRate: Float
 }
 
 protocol AudioProcessorDelegate {
@@ -63,6 +99,20 @@ class AudioProcessor: NSObject, AVAudioPlayerDelegate {
         }
     }
     
+    func getFileSampleRate(_ pathStr: String) -> Double {
+        let path = URL(filePath: pathStr)
+        let sourceFile: AVAudioFile
+        do {
+            _ = path.startAccessingSecurityScopedResource()
+            sourceFile = try AVAudioFile(forReading: path)
+            
+            return sourceFile.fileFormat.sampleRate
+        } catch {
+            print(error.localizedDescription)
+            fatalError(error.localizedDescription)
+        }
+    }
+    
     func processFile(_ pathStr: String, settings: ProcessingSettings) throws -> URL {
         let path = URL(filePath: pathStr)
         let sourceFile: AVAudioFile
@@ -81,6 +131,8 @@ class AudioProcessor: NSObject, AVAudioPlayerDelegate {
         let reverbNode = AVAudioUnitReverb()
         let delayNode = AVAudioUnitDelay()
         let distortionNode = AVAudioUnitDistortion()
+        let pitchNode = AVAudioUnitTimePitch()
+        let playRateNode = AVAudioUnitVarispeed()
 
         engine.attach(playerNode)
         
@@ -91,15 +143,28 @@ class AudioProcessor: NSObject, AVAudioPlayerDelegate {
         engine.attach(delayNode)
         delayNode.delayTime = TimeInterval(Float(settings.delayTimeInMS) / 1000)
         delayNode.wetDryMix = Float(settings.delay)
+        delayNode.feedback = Float(settings.delayFeedback) / 100
+        delayNode.lowPassCutoff = Float(settings.delayLowPassCutoff)
         
         engine.attach(distortionNode)
         distortionNode.wetDryMix = Float(settings.distortionAmount)
         distortionNode.preGain = Float(settings.distortionGain)
         
+        engine.attach(pitchNode)
+        pitchNode.overlap = settings.pitchOverlap
+        pitchNode.rate = settings.pitchRate
+        pitchNode.pitch = Float(settings.pitchAmount)
+        
+        engine.attach(playRateNode)
+        playRateNode.rate = settings.playRate
+        
         engine.connect(playerNode, to: reverbNode, format: format)
         engine.connect(reverbNode, to: delayNode, format: format)
         engine.connect(delayNode, to: distortionNode, format: format)
-        engine.connect(distortionNode, to: engine.mainMixerNode, format: format)
+        engine.connect(distortionNode, to: pitchNode, format: format)
+        engine.connect(pitchNode, to: playRateNode, format: format)
+        engine.connect(playRateNode, to: engine.mainMixerNode, format: format)
+        
 
         // Schedule the source file.
         playerNode.scheduleFile(sourceFile, at: nil)
