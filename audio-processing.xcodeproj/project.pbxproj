@@ -14,6 +14,9 @@
 		F49F77B229568E8D00599B50 /* audio_processingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F77B129568E8D00599B50 /* audio_processingTests.swift */; };
 		F49F77BC29568E8D00599B50 /* audio_processingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F77BB29568E8D00599B50 /* audio_processingUITests.swift */; };
 		F49F77BE29568E8D00599B50 /* audio_processingUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F77BD29568E8D00599B50 /* audio_processingUITestsLaunchTests.swift */; };
+		F49F77E1296378D300599B50 /* AudioProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F77E0296378D300599B50 /* AudioProcessor.swift */; };
+		F49F77E329637A9800599B50 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F77E229637A9800599B50 /* DocumentPicker.swift */; };
+		F49F77E52963AEE200599B50 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F77E42963AEE200599B50 /* ContentViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +47,9 @@
 		F49F77B729568E8D00599B50 /* audio-processingUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "audio-processingUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F49F77BB29568E8D00599B50 /* audio_processingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = audio_processingUITests.swift; sourceTree = "<group>"; };
 		F49F77BD29568E8D00599B50 /* audio_processingUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = audio_processingUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		F49F77E0296378D300599B50 /* AudioProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioProcessor.swift; sourceTree = "<group>"; };
+		F49F77E229637A9800599B50 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
+		F49F77E42963AEE200599B50 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +102,9 @@
 			children = (
 				F49F77A029568E8C00599B50 /* audio_processingApp.swift */,
 				F49F77A229568E8C00599B50 /* ContentView.swift */,
+				F49F77E229637A9800599B50 /* DocumentPicker.swift */,
+				F49F77E42963AEE200599B50 /* ContentViewModel.swift */,
+				F49F77E0296378D300599B50 /* AudioProcessor.swift */,
 				F49F77A429568E8D00599B50 /* Assets.xcassets */,
 				F49F77A629568E8D00599B50 /* Preview Content */,
 			);
@@ -143,6 +152,8 @@
 			dependencies = (
 			);
 			name = "audio-processing";
+			packageProductDependencies = (
+			);
 			productName = "audio-processing";
 			productReference = F49F779D29568E8C00599B50 /* audio-processing.app */;
 			productType = "com.apple.product-type.application";
@@ -215,6 +226,8 @@
 				Base,
 			);
 			mainGroup = F49F779429568E8C00599B50;
+			packageReferences = (
+			);
 			productRefGroup = F49F779E29568E8C00599B50 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -258,7 +271,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				F49F77A329568E8C00599B50 /* ContentView.swift in Sources */,
+				F49F77E52963AEE200599B50 /* ContentViewModel.swift in Sources */,
 				F49F77A129568E8C00599B50 /* audio_processingApp.swift in Sources */,
+				F49F77E329637A9800599B50 /* DocumentPicker.swift in Sources */,
+				F49F77E1296378D300599B50 /* AudioProcessor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
