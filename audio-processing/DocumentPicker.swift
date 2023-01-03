@@ -8,6 +8,8 @@
 import Foundation
 import SwiftUI
 
+
+// Taken from https://capps.tech/blog/read-files-with-documentpicker-in-swiftui
 struct DocumentPicker: UIViewControllerRepresentable {
     @Binding var filePath: String?
     
