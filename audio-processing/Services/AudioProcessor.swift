@@ -13,7 +13,7 @@ enum ProcessingError: Error {
 }
 
 struct ProcessingSettings {
-    init(reverb: Int = 0, delay: Int = 0, delayTimeInMS: Int = 0, delayFeedback: Int = 50, delayLowPassCutoff: Int = 15000, distortionAmount: Int = 0, distortionGain: Int = 0, pitchAmount: Int = 0, pitchOverlap: Float = 8.0, pitchRate: Float =  1.0, playRate: Float = 1.0) {
+    init(reverb: Int = 0, delay: Int = 0, delayTimeInMS: Int = 0, delayFeedback: Int = 50, delayLowPassCutoff: Int = 15000, distortionAmount: Int = 0, distortionGain: Int = -6, pitchAmount: Int = 0, pitchOverlap: Float = 8.0, pitchRate: Float =  1.0, playRate: Float = 1.0) {
         self.reverb = reverb
         self.delay = delay
         self.delayTimeInMS = delayTimeInMS
@@ -114,6 +114,7 @@ class AudioProcessor: NSObject, AVAudioPlayerDelegate {
     }
     
     func processFile(_ pathStr: String, settings: ProcessingSettings) throws -> URL {
+        print(settings)
         let path = URL(filePath: pathStr)
         let sourceFile: AVAudioFile
         let format: AVAudioFormat

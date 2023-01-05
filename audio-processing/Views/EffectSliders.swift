@@ -136,7 +136,7 @@ struct EffectSliders: View {
                 
                 Slider(
                     value: $viewModel.distortionGain,
-                    in: -6...80,
+                    in: -80...20,
                     step: 1,
                     label: {
                         Text("Pre gain in dB")
