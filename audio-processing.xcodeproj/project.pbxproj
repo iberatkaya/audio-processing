@@ -38,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F439BF722966962600D904A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		F49F779D29568E8C00599B50 /* audio-processing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "audio-processing.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F49F77A029568E8C00599B50 /* audio_processingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = audio_processingApp.swift; sourceTree = "<group>"; };
 		F49F77A229568E8C00599B50 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -102,6 +103,7 @@
 		F49F779F29568E8C00599B50 /* audio-processing */ = {
 			isa = PBXGroup;
 			children = (
+				F439BF722966962600D904A5 /* Info.plist */,
 				F49F77ED2963B84000599B50 /* Services */,
 				F49F77EC2963B81F00599B50 /* Core */,
 				F49F77EB2963B81400599B50 /* ViewModels */,
@@ -467,11 +469,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"audio-processing/Preview Content\"";
 				DEVELOPMENT_TEAM = DQ7CFP6525;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "audio-processing/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Audio Processing";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -497,11 +500,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"audio-processing/Preview Content\"";
 				DEVELOPMENT_TEAM = DQ7CFP6525;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "audio-processing/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Audio Processing";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
